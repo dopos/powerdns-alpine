@@ -1,0 +1,13 @@
+diff --git a/pdns/ws-api.cc b/pdns/ws-api.cc
+index 5c48fdae1..b30c4fcd5 100644
+--- a/pdns/ws-api.cc
++++ b/pdns/ws-api.cc
+@@ -382,7 +382,7 @@ string apiZoneNameToId(const DNSName& dname) {
+ }
+ 
+ void apiCheckNameAllowedCharacters(const string& name) {
+-  if (name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_/.-") != std::string::npos)
++  if (name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_/.-*") != std::string::npos)
+     throw ApiException("Name '"+name+"' contains unsupported characters");
+ }
+ 

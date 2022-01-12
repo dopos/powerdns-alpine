@@ -10,11 +10,14 @@ ENV POWERDNS_VERSION=4.5.2 \
     MYSQL_DEFAULT_PASS="root" \
     MYSQL_DEFAULT_DB="pdns"
 
-RUN apk --update add bash libpq sqlite-libs libstdc++ libgcc mariadb-client mariadb-connector-c lua-dev curl-dev && \
+ADD allow_wildcard.patch /
+
+RUN apk --update add bash libpq sqlite-libs libstdc++ libgcc mariadb-client mariadb-connector-c lua-dev curl-dev patch && \
     apk add --virtual build-deps \
       g++ make mariadb-dev postgresql-dev sqlite-dev curl boost-dev mariadb-connector-c-dev && \
     curl -sSL https://downloads.powerdns.com/releases/pdns-$POWERDNS_VERSION.tar.bz2 | tar xj -C /tmp && \
     cd /tmp/pdns-$POWERDNS_VERSION && \
+    patch pdns/ws-api.cc /allow_wildcard.patch && \
     ./configure --prefix="" --exec-prefix=/usr --sysconfdir=/etc/pdns \
       --with-modules="bind gmysql gpgsql gsqlite3" && \
     make && make install-strip && cd / && \
