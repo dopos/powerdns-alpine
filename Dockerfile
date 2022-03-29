@@ -2,7 +2,7 @@
 FROM ghcr.io/dopos/docker-alpine:v3.14.3
 MAINTAINER Christoph Wiechert <wio@psitrax.de>
 
-ENV POWERDNS_VERSION=4.5.2 \
+ENV POWERDNS_VERSION=4.6.1 \
     MYSQL_DEFAULT_AUTOCONF=true \
     MYSQL_DEFAULT_HOST="mysql" \
     MYSQL_DEFAULT_PORT="3306" \
