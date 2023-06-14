@@ -1,23 +1,18 @@
-# FROM alpine:3.14.2
-FROM ghcr.io/dopos/docker-alpine:v3.14.3
-MAINTAINER Christoph Wiechert <wio@psitrax.de>
+FROM ghcr.io/dopos/docker-alpine:v3.17.2
 
-ENV POWERDNS_VERSION=4.6.1 \
-    MYSQL_DEFAULT_AUTOCONF=true \
+ENV POWERDNS_VERSION=4.8.0 \
+    MYSQL_DEFAULT_AUTOCONF=false \
     MYSQL_DEFAULT_HOST="mysql" \
     MYSQL_DEFAULT_PORT="3306" \
     MYSQL_DEFAULT_USER="root" \
     MYSQL_DEFAULT_PASS="root" \
     MYSQL_DEFAULT_DB="pdns"
 
-ADD allow_wildcard.patch /
-
-RUN apk --update add bash libpq sqlite-libs libstdc++ libgcc mariadb-client mariadb-connector-c lua-dev curl-dev patch && \
+RUN apk --update add bash libpq sqlite-libs libstdc++ libgcc mariadb-client mariadb-connector-c lua-dev curl-dev && \
     apk add --virtual build-deps \
       g++ make mariadb-dev postgresql-dev sqlite-dev curl boost-dev mariadb-connector-c-dev && \
     curl -sSL https://downloads.powerdns.com/releases/pdns-$POWERDNS_VERSION.tar.bz2 | tar xj -C /tmp && \
     cd /tmp/pdns-$POWERDNS_VERSION && \
-    patch pdns/ws-api.cc /allow_wildcard.patch && \
     ./configure --prefix="" --exec-prefix=/usr --sysconfdir=/etc/pdns \
       --with-modules="bind gmysql gpgsql gsqlite3" && \
     make && make install-strip && cd / && \
@@ -30,7 +25,7 @@ RUN apk --update add bash libpq sqlite-libs libstdc++ libgcc mariadb-client mari
     mv /tmp/lib* /usr/lib/ && \
     rm -rf /tmp/pdns-$POWERDNS_VERSION /var/cache/apk/*
 
-ADD schema.sql pdns.conf /etc/pdns/
+ADD schema.sql /etc/pdns/
 ADD entrypoint.sh /
 
 EXPOSE 53/tcp 53/udp
