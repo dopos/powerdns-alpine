@@ -1,6 +1,6 @@
-FROM ghcr.io/dopos/docker-alpine:v3.17.2
+FROM ghcr.io/dopos/docker-alpine:v3.20
 
-ENV POWERDNS_VERSION=4.8.0 \
+ENV POWERDNS_VERSION=4.9.1 \
     MYSQL_DEFAULT_AUTOCONF=false \
     MYSQL_DEFAULT_HOST="mysql" \
     MYSQL_DEFAULT_PORT="3306" \
