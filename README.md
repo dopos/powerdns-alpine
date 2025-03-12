@@ -10,7 +10,7 @@
 
 ## Supported tags
 
-* PowerDNS Version 4.8.0
+* PowerDNS Version 4.9.4
 
 ## Usage
 
